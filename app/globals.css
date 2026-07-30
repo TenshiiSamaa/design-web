@@ -1,26 +1,102 @@
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
+@theme {
+  /* Fonts */
+  --font-sans: var(--font-geist-sans), ui-sans-serif, system-ui, sans-serif;
+  --font-mono: var(--font-geist-mono), ui-monospace, "Courier New", monospace;
 
-@theme inline {
+  /* Colors mapped from CSS variables for live palette switching */
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-accent: var(--accent);
+  --color-surface: var(--surface);
+  --color-card: var(--card);
+  --color-border: var(--border);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-success: var(--success);
+  --color-warning: var(--warning);
+  --color-destructive: var(--destructive);
+  --color-ring: var(--ring);
+
+  /* Radius mapped from scale multipliers */
+  --radius-sm: calc(var(--radius, 0.5rem) * 0.5);
+  --radius-md: var(--radius, 0.5rem);
+  --radius-lg: calc(var(--radius, 0.5rem) * 1.5);
+  --radius-xl: calc(var(--radius, 0.5rem) * 2.0);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+:root {
+  /* Fallbacks for semantic tokens */
+  --background: #f8fafc;
+  --foreground: #0f172a;
+  --primary: #6366f1;
+  --primary-foreground: #ffffff;
+  --secondary: #f1f5f9;
+  --accent: #e2e8f0;
+  --surface: #ffffff;
+  --card: rgba(255, 255, 255, 0.85);
+  --border: rgba(15, 23, 42, 0.08);
+  --muted: #f1f5f9;
+  --muted-foreground: rgba(15, 23, 42, 0.6);
+  --success: #10b981;
+  --warning: #f59e0b;
+  --destructive: #ef4444;
+  --ring: #6366f1;
+  --radius: 0.5rem;
+}
+
+.dark {
+  --background: #030712;
+  --foreground: #f9fafb;
+  --primary: #6366f1;
+  --primary-foreground: #ffffff;
+  --secondary: #131139;
+  --accent: #272372;
+  --surface: #131139;
+  --card: rgba(3, 7, 18, 0.6);
+  --border: rgba(255, 255, 255, 0.06);
+  --muted: #131139;
+  --muted-foreground: rgba(248, 248, 252, 0.5);
+  --success: #10b981;
+  --warning: #f59e0b;
+  --destructive: #ef4444;
+  --ring: #6366f1;
 }
 
 body {
-  background: var(--background);
+  background-color: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--font-sans);
+  transition: background-color 0.2s ease, color 0.2s ease, border-color 0.2s ease;
+  overflow-x: hidden;
+}
+
+/* Accessibility skip navigation link */
+.skip-nav {
+  position: absolute;
+  top: -100%;
+  left: 1rem;
+  z-index: 9999;
+  padding: 0.5rem 1rem;
+  background-color: var(--primary);
+  color: var(--primary-foreground);
+  border-radius: var(--radius-md);
+  font-size: 0.875rem;
+  font-weight: 600;
+  text-decoration: none;
+  transition: top 0.2s ease;
+}
+
+.skip-nav:focus {
+  top: 1rem;
+}
+
+/* Focus styles */
+:focus-visible {
+  outline: 2px solid var(--primary);
+  outline-offset: 2px;
 }
