@@ -67,7 +67,6 @@ export function TestingThemeProvider({ children }: { children: React.ReactNode }
   const [compareMode, setCompareModeState] = useState<boolean>(false);
   const [mounted, setMounted] = useState(false);
   const [isInitializingSplash, setIsInitializingSplash] = useState(true);
-  const [loadingProgress, setLoadingProgress] = useState(15);
 
   // Theme Engine Controls
   const [themeMode, setThemeModeState] = useState<ThemeMode>("system");
@@ -136,22 +135,13 @@ export function TestingThemeProvider({ children }: { children: React.ReactNode }
       }
     }, 0);
 
-    const p1 = setTimeout(() => setLoadingProgress(38), 200);
-    const p2 = setTimeout(() => setLoadingProgress(68), 500);
-    const p3 = setTimeout(() => setLoadingProgress(92), 900);
     const finish = setTimeout(() => {
-      setLoadingProgress(100);
-      setTimeout(() => {
-        setIsInitializingSplash(false);
-        setMounted(true);
-      }, 150);
-    }, 1200);
+      setIsInitializingSplash(false);
+      setMounted(true);
+    }, 1250);
 
     return () => {
       clearTimeout(timer);
-      clearTimeout(p1);
-      clearTimeout(p2);
-      clearTimeout(p3);
       clearTimeout(finish);
     };
   }, []);
@@ -341,37 +331,33 @@ export function TestingThemeProvider({ children }: { children: React.ReactNode }
       }}
     >
       {isInitializingSplash ? (
-        <div className="fixed inset-0 z-[999999] flex flex-col items-center justify-center p-4 font-sans select-none bg-black text-white">
-          <div className="flex flex-col items-center text-center space-y-8 max-w-sm w-full">
-            {/* Logo circular with soft white glow */}
-            <div className="relative">
-              <div className="absolute inset-0 rounded-full bg-white/10 blur-xl scale-110" />
+        <div suppressHydrationWarning className="fixed inset-0 z-[999999] flex flex-col items-center justify-center p-4 font-sans select-none bg-[#1e1e1e] text-white">
+          <div suppressHydrationWarning className="flex flex-col items-center text-center space-y-6 max-w-sm w-full">
+            {/* Logo circular pulsing */}
+            <div suppressHydrationWarning className="relative">
               <Image
                 src="https://raw.githubusercontent.com/TenshiiSamaa/My-Media/refs/heads/main/media/bot/pp%20mahiru%20shiina.jpg"
                 alt="Design Web"
-                width={96}
-                height={96}
-                className="w-24 h-24 rounded-full object-cover relative z-10 border border-white/5 shadow-[0_0_32px_rgba(255,255,255,0.15)]"
+                width={80}
+                height={80}
+                className="w-20 h-20 rounded-full object-cover shadow-[8px_8px_16px_#121212,_-8px_-8px_16px_#2a2a2a] animate-splashPulse border border-white/5"
                 unoptimized
               />
             </div>
             
             {/* Brand */}
-            <div className="text-[18px] font-black tracking-[4px] text-white uppercase font-mono pt-2">
+            <div suppressHydrationWarning className="text-[18px] font-black tracking-[3px] text-[#e2e8f0] uppercase font-mono">
               DESIGN <span className="text-[#2563eb]">WEB</span>
             </div>
 
             {/* Sub */}
-            <div className="text-[10px] font-bold tracking-[2px] text-white/90 uppercase font-mono">
-              INITIALIZING PLATFORM
+            <div suppressHydrationWarning className="text-[11px] font-bold tracking-[1.8px] text-zinc-400 uppercase font-mono">
+              Initializing Platform
             </div>
 
-            {/* Progress Bar Container */}
-            <div className="w-[200px] h-[4px] rounded-full bg-neutral-900 overflow-hidden relative mt-4">
-              <div 
-                className="h-full rounded-full bg-[#2563eb] shadow-[0_0_8px_rgba(37,99,235,0.8)] transition-all duration-300 ease-out" 
-                style={{ width: `${loadingProgress}%` }}
-              />
+            {/* Track and Fill (Indeterminate) */}
+            <div suppressHydrationWarning className="w-[180px] h-[6px] rounded-full bg-[#1e1e1e] shadow-[inset_3px_3px_6px_#121212,_inset_-3px_-3px_6px_#2a2a2a] overflow-hidden p-0.5 relative">
+              <div suppressHydrationWarning className="h-full rounded-full bg-[#2563eb] animate-xrizal-loader shadow-[0_0_8px_rgba(37,99,235,0.6)]" />
             </div>
           </div>
         </div>

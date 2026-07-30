@@ -16,11 +16,13 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "design-web — Professional UI/UX Laboratory",
+  title: "design web",
   description: "Advanced UI/UX testing sandbox, color palette engine, custom animation builder, and component playground.",
   robots: { index: false, follow: false },
   icons: {
     icon: "https://raw.githubusercontent.com/TenshiiSamaa/My-Media/refs/heads/main/media/bot/pp%20mahiru%20shiina.jpg",
+    shortcut: "https://raw.githubusercontent.com/TenshiiSamaa/My-Media/refs/heads/main/media/bot/pp%20mahiru%20shiina.jpg",
+    apple: "https://raw.githubusercontent.com/TenshiiSamaa/My-Media/refs/heads/main/media/bot/pp%20mahiru%20shiina.jpg",
   }
 };
 
@@ -35,7 +37,7 @@ export default function RootLayout({
       className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
       suppressHydrationWarning
     >
-      <body className="min-h-full flex flex-col bg-[var(--background)] text-[var(--foreground)]">
+      <body className="min-h-full flex flex-col bg-[var(--background)] text-[var(--foreground)]" suppressHydrationWarning>
         <TestingThemeProvider>
           <div className="flex min-h-screen w-full">
             <TestingSidebar />
