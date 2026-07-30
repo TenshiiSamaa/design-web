@@ -1,10 +1,10 @@
-# design-web — Standalone UI/UX Sandbox Laboratory
+# design-web 
 
 Welcome to `design-web`, the official standalone UI/UX laboratory, sandbox environment, and design engine workspace. 
 
 Restructured from the `/testing` routing module of our production portfolio, this independent repository serves as a professional laboratory for building, testing, validating, and optimizing colors, components, typography scales, layout frameworks, and complex spring animations before they are promoted into the lightweight production portfolio.
 
-Example deployment target: [design-web.vercel.app](https://design-web.vercel.app).
+Example deployment target: [https://shiina-design.vercel.app]([https://design-web.vercel.app](https://shiina-design.vercel.app)).
 
 ---
 
