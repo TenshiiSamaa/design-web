@@ -54,13 +54,13 @@
   --foreground: #f9fafb;
   --primary: #6366f1;
   --primary-foreground: #ffffff;
-  --secondary: #131139;
-  --accent: #272372;
-  --surface: #131139;
-  --card: rgba(3, 7, 18, 0.6);
-  --border: rgba(255, 255, 255, 0.06);
-  --muted: #131139;
-  --muted-foreground: rgba(248, 248, 252, 0.5);
+  --secondary: #1f2937;
+  --accent: #374151;
+  --surface: #111827;
+  --card: #1f2937;
+  --border: rgba(255, 255, 255, 0.15);
+  --muted: #111827;
+  --muted-foreground: #9ca3af;
   --success: #10b981;
   --warning: #f59e0b;
   --destructive: #ef4444;
@@ -99,4 +99,33 @@ body {
 :focus-visible {
   outline: 2px solid var(--primary);
   outline-offset: 2px;
+}
+
+/* Continuous Indeterminate Blue Loading Bar Animation (Plek ketiplek xrizal) */
+@keyframes xrizal-splash-bar {
+  0% {
+    transform: translateX(-100%);
+    width: 40%;
+  }
+  50% {
+    width: 60%;
+  }
+  100% {
+    transform: translateX(250%);
+    width: 40%;
+  }
+}
+
+.animate-xrizal-loader {
+  animation: xrizal-splash-bar 1.2s ease-in-out infinite;
+}
+
+/* Splash pulse animation for loading screen */
+@keyframes splashPulse {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.85; transform: scale(1.04); }
+}
+
+.animate-splashPulse {
+  animation: splashPulse 1.8s ease-in-out infinite;
 }

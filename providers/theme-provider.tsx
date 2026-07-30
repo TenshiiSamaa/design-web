@@ -1,6 +1,7 @@
 "use client";
 
 import React, { createContext, useContext, useEffect, useState, useCallback, useMemo } from "react";
+import Image from "next/image";
 import { Palette, ColorTheme } from "@/registry/types";
 import { ALL_PALETTES } from "@/registry/registry-manifest";
 import { compileThemeToCssRule } from "@/themes";
@@ -65,6 +66,8 @@ export function TestingThemeProvider({ children }: { children: React.ReactNode }
   const [comparePreset, setComparePresetState] = useState<string>("violet");
   const [compareMode, setCompareModeState] = useState<boolean>(false);
   const [mounted, setMounted] = useState(false);
+  const [isInitializingSplash, setIsInitializingSplash] = useState(true);
+  const [loadingProgress, setLoadingProgress] = useState(15);
 
   // Theme Engine Controls
   const [themeMode, setThemeModeState] = useState<ThemeMode>("system");
@@ -131,9 +134,26 @@ export function TestingThemeProvider({ children }: { children: React.ReactNode }
           // ignore
         }
       }
-      setMounted(true);
     }, 0);
-    return () => clearTimeout(timer);
+
+    const p1 = setTimeout(() => setLoadingProgress(38), 200);
+    const p2 = setTimeout(() => setLoadingProgress(68), 500);
+    const p3 = setTimeout(() => setLoadingProgress(92), 900);
+    const finish = setTimeout(() => {
+      setLoadingProgress(100);
+      setTimeout(() => {
+        setIsInitializingSplash(false);
+        setMounted(true);
+      }, 150);
+    }, 1200);
+
+    return () => {
+      clearTimeout(timer);
+      clearTimeout(p1);
+      clearTimeout(p2);
+      clearTimeout(p3);
+      clearTimeout(finish);
+    };
   }, []);
 
   // System theme match listener
@@ -320,77 +340,114 @@ export function TestingThemeProvider({ children }: { children: React.ReactNode }
         addRecentPalette
       }}
     >
-      <div className="min-h-screen w-full flex flex-col">
-        {mounted && (
-          <style dangerouslySetInnerHTML={{
-            __html: `
-              /* Dynamic theme compiler rule injections */
-              ${compileThemeToCssRule(activeTheme.light, '[data-theme-pane="primary"]')}
-              ${compileThemeToCssRule(activeCompareTheme.light, '[data-theme-pane="compare"]')}
-              
-              /* Dark mode compiled overrides */
-              ${compileThemeToCssRule(activeTheme.dark, '.dark [data-theme-pane="primary"]')}
-              ${compileThemeToCssRule(activeCompareTheme.dark, '.dark [data-theme-pane="compare"]')}
-              
-              /* Render spacing, fonts, and animation scales reactively */
-              [data-testing-root] {
-                font-size: calc(1rem * var(--font-multiplier, 1));
-                --radius: calc(0.5rem * var(--radius-multiplier, 1));
-              }
-              
-              /* Selection color customization scoped to theme panes */
-              [data-theme-pane="primary"] ::selection {
-                background: var(--primary) !important;
-                color: var(--primary-foreground) !important;
-              }
-              [data-theme-pane="compare"] ::selection {
-                background: var(--primary) !important;
-                color: var(--primary-foreground) !important;
-              }
-              
-              /* Custom scrollbar styling */
-              ::-webkit-scrollbar {
-                width: 8px;
-                height: 8px;
-              }
-              ::-webkit-scrollbar-track {
-                background: var(--background);
-              }
-              ::-webkit-scrollbar-thumb {
-                background: var(--border);
-                border-radius: var(--radius);
-              }
-              ::-webkit-scrollbar-thumb:hover {
-                background: var(--primary);
-              }
-              
-              /* Handle reduced motion */
-              ${reducedMotion ? `
-                *, *::before, *::after {
-                  animation-duration: 0.01ms !important;
-                  animation-iteration-count: 1 !important;
-                  transition-duration: 0.01ms !important;
-                  scroll-behavior: auto !important;
-                }
-              ` : ""}
-            `
-          }} />
-        )}
+      {isInitializingSplash ? (
+        <div className="fixed inset-0 z-[999999] flex flex-col items-center justify-center p-4 font-sans select-none bg-black text-white">
+          <div className="flex flex-col items-center text-center space-y-8 max-w-sm w-full">
+            {/* Logo circular with soft white glow */}
+            <div className="relative">
+              <div className="absolute inset-0 rounded-full bg-white/10 blur-xl scale-110" />
+              <Image
+                src="https://raw.githubusercontent.com/TenshiiSamaa/My-Media/refs/heads/main/media/bot/pp%20mahiru%20shiina.jpg"
+                alt="Design Web"
+                width={96}
+                height={96}
+                className="w-24 h-24 rounded-full object-cover relative z-10 border border-white/5 shadow-[0_0_32px_rgba(255,255,255,0.15)]"
+                unoptimized
+              />
+            </div>
+            
+            {/* Brand */}
+            <div className="text-[18px] font-black tracking-[4px] text-white uppercase font-mono pt-2">
+              DESIGN <span className="text-[#2563eb]">WEB</span>
+            </div>
 
-        {/* Primary pane variables override container */}
-        <div 
-          data-theme-pane="primary"
-          style={{
-            "--radius-multiplier": radiusMultiplier,
-            "--spacing-multiplier": spacingMultiplier,
-            "--font-multiplier": fontMultiplier,
-          } as React.CSSProperties}
-          className="min-h-screen w-full flex bg-[var(--background)] text-[var(--foreground)] transition-colors duration-300"
-          data-testing-root
-        >
-          {children}
+            {/* Sub */}
+            <div className="text-[10px] font-bold tracking-[2px] text-white/90 uppercase font-mono">
+              INITIALIZING PLATFORM
+            </div>
+
+            {/* Progress Bar Container */}
+            <div className="w-[200px] h-[4px] rounded-full bg-neutral-900 overflow-hidden relative mt-4">
+              <div 
+                className="h-full rounded-full bg-[#2563eb] shadow-[0_0_8px_rgba(37,99,235,0.8)] transition-all duration-300 ease-out" 
+                style={{ width: `${loadingProgress}%` }}
+              />
+            </div>
+          </div>
         </div>
-      </div>
+      ) : (
+        <div className="min-h-screen w-full flex flex-col">
+          {mounted && (
+            <style dangerouslySetInnerHTML={{
+              __html: `
+                /* Dynamic theme compiler rule injections */
+                ${compileThemeToCssRule(activeTheme.light, '[data-theme-pane="primary"]')}
+                ${compileThemeToCssRule(activeCompareTheme.light, '[data-theme-pane="compare"]')}
+                
+                /* Dark mode compiled overrides */
+                ${compileThemeToCssRule(activeTheme.dark, '.dark [data-theme-pane="primary"]')}
+                ${compileThemeToCssRule(activeCompareTheme.dark, '.dark [data-theme-pane="compare"]')}
+                
+                /* Render spacing, fonts, and animation scales reactively */
+                [data-testing-root] {
+                  font-size: calc(1rem * var(--font-multiplier, 1));
+                  --radius: calc(0.5rem * var(--radius-multiplier, 1));
+                }
+                
+                /* Selection color customization scoped to theme panes */
+                [data-theme-pane="primary"] ::selection {
+                  background: var(--primary) !important;
+                  color: var(--primary-foreground) !important;
+                }
+                [data-theme-pane="compare"] ::selection {
+                  background: var(--primary) !important;
+                  color: var(--primary-foreground) !important;
+                }
+                
+                /* Custom scrollbar styling */
+                ::-webkit-scrollbar {
+                  width: 8px;
+                  height: 8px;
+                }
+                ::-webkit-scrollbar-track {
+                  background: var(--background);
+                }
+                ::-webkit-scrollbar-thumb {
+                  background: var(--border);
+                  border-radius: var(--radius);
+                }
+                ::-webkit-scrollbar-thumb:hover {
+                  background: var(--primary);
+                }
+                
+                /* Handle reduced motion */
+                ${reducedMotion ? `
+                  *, *::before, *::after {
+                    animation-duration: 0.01ms !important;
+                    animation-iteration-count: 1 !important;
+                    transition-duration: 0.01ms !important;
+                    scroll-behavior: auto !important;
+                  }
+                ` : ""}
+              `
+            }} />
+          )}
+
+          {/* Primary pane variables override container */}
+          <div 
+            data-theme-pane="primary"
+            style={{
+              "--radius-multiplier": radiusMultiplier,
+              "--spacing-multiplier": spacingMultiplier,
+              "--font-multiplier": fontMultiplier,
+            } as React.CSSProperties}
+            className="min-h-screen w-full flex bg-[var(--background)] text-[var(--foreground)] transition-colors duration-300"
+            data-testing-root
+          >
+            {children}
+          </div>
+        </div>
+      )}
     </ThemePresetContext.Provider>
   );
 }
