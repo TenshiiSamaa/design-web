@@ -4,7 +4,7 @@ Welcome to `design-web`, the official standalone UI/UX laboratory, sandbox envir
 
 Restructured from the `/testing` routing module of our production portfolio, this independent repository serves as a professional laboratory for building, testing, validating, and optimizing colors, components, typography scales, layout frameworks, and complex spring animations before they are promoted into the lightweight production portfolio.
 
-Example deployment target: [design-web.vercel.app](https://design-web.vercel.app) or [design.mdafha.my.id](https://design.mdafha.my.id).
+Example deployment target: [design-web.vercel.app](https://design-web.vercel.app).
 
 ---
 

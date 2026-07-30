@@ -1,0 +1,72 @@
+import { AssetSpec } from "./types";
+
+export const MARKETPLACE_ASSETS: AssetSpec[] = [
+  {
+    id: "asset-shield",
+    slug: "security-shield-icon",
+    category: "icon",
+    name: "Security Shield",
+    description: "Standard outline security icon used to represent high-contrast validation and audits.",
+    author: "Core Design Architect",
+    license: "MIT",
+    tags: ["Security", "Shield", "A11y"],
+    createdAt: "2026-07-30",
+    updatedAt: "2026-07-30",
+    fileType: "svg",
+    downloadable: true,
+    themeCompatible: true,
+    recommendedUsage: ["Alert dialogs", "Audit checks cards"],
+    codeContent: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="h-6 w-6"><path d="M20 13c0 5-3.5 7.5-7.66 9.7a1 1 0 0 1-.68 0C7.5 20.5 4 18 4 13V6a1 1 0 0 1 .76-.97l8-2a1 1 0 0 1 .48 0l8 2A1 1 0 0 1 20 6z"/></svg>`
+  },
+  {
+    id: "asset-empty-state",
+    slug: "empty-state-illustration",
+    category: "illustration",
+    name: "Folder Empty State",
+    description: "SUBTLE empty state artwork illustrating missing directory files.",
+    author: "Core Design Architect",
+    license: "MIT",
+    tags: ["Illustrations", "Empty", "Layouts"],
+    createdAt: "2026-07-30",
+    updatedAt: "2026-07-30",
+    fileType: "svg",
+    downloadable: true,
+    themeCompatible: true,
+    recommendedUsage: ["Blank folder tabs", "Empty search queries panels"],
+    codeContent: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="h-24 w-24"><rect x="15" y="25" width="70" height="55" rx="8" /><path d="M15 40h70M35 25v15M65 25v15" /></svg>`
+  },
+  {
+    id: "asset-aurora-grad",
+    slug: "aurora-mesh-gradient",
+    category: "gradient",
+    name: "Aurora Midnight Mesh",
+    description: "Mesh CSS gradient displaying premium transitions from deep purple to neon teal.",
+    author: "Core Design Architect",
+    license: "MIT",
+    tags: ["Gradients", "Mesh", "Mesh Backgrounds"],
+    createdAt: "2026-07-30",
+    updatedAt: "2026-07-30",
+    fileType: "css",
+    downloadable: false,
+    themeCompatible: false,
+    recommendedUsage: ["Hero headers backgrounds", "Auth banner templates"],
+    codeContent: "linear-gradient(135deg, #4f46e5 0%, #06b6d4 100%)"
+  },
+  {
+    id: "asset-dot-pattern",
+    slug: "dots-matrix-pattern",
+    category: "pattern",
+    name: "Subtle Dots Matrix",
+    description: "SVG dots pattern background configuration using radial layout parameters.",
+    author: "Core Design Architect",
+    license: "MIT",
+    tags: ["Patterns", "Grid", "Backgrounds"],
+    createdAt: "2026-07-30",
+    updatedAt: "2026-07-30",
+    fileType: "css",
+    downloadable: false,
+    themeCompatible: true,
+    recommendedUsage: ["Raised panel overlays", "Grid container backgrounds"],
+    codeContent: "radial-gradient(var(--border) 1px, transparent 1px)"
+  }
+];

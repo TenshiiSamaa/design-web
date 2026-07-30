@@ -4,7 +4,7 @@ import { Palette } from "@/registry/types";
  * CUSTOM PALETTE CONFIGURATION
  * 
  * Edit this file to add or modify your own custom design palette!
- * The system automatically integrates this custom palette into the Design Lab.
+ * The system automatically integrates this custom palette into Design Web.
  */
 export const CUSTOM_PALETTE_CONFIG: Palette = {
   id: "custom-testing-palette",
