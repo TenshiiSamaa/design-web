@@ -1,4 +1,5 @@
 import { ColorTheme } from "@/registry/types";
+import { suggestAccessibleColor } from "../utils/contrast";
 
 /**
  * CSS VARIABLE ENGINE
@@ -6,23 +7,45 @@ import { ColorTheme } from "@/registry/types";
  * Maps ColorTheme tokens to CSS custom properties.
  */
 export function generateCssVariables(theme: ColorTheme): Record<string, string> {
+  const bg = theme.background;
+  
+  // Dynamically boost foreground/text layer contrast while keeping colors subtle where appropriate
+  const fg = suggestAccessibleColor(theme.foreground, bg, 4.5);
+  const mutedFg = suggestAccessibleColor(theme.mutedForeground, bg, 4.0);
+  
+  // Boost primary color to guarantee interactive text (links, hover states) is readable against background
+  const primary = suggestAccessibleColor(theme.primary, bg, 4.5);
+  
+  // Correct foreground variables relative to their background boundaries
+  const primaryFg = suggestAccessibleColor(theme.primaryForeground, primary, 4.5);
+  const secondaryFg = suggestAccessibleColor(theme.secondaryForeground, theme.secondary, 4.5);
+  const accentFg = suggestAccessibleColor(theme.accentForeground, theme.accent, 4.5);
+  
+  // Guarantee readable status indicators
+  const successText = suggestAccessibleColor(theme.success, bg, 4.5);
+  const warningText = suggestAccessibleColor(theme.warning, bg, 4.5);
+  const destructiveText = suggestAccessibleColor(theme.destructive, bg, 4.5);
+
+  // Keep borders subtle but distinguishable (target 1.35 ratio against background)
+  const border = suggestAccessibleColor(theme.border, bg, 1.35);
+
   return {
     "--background": theme.background,
-    "--foreground": theme.foreground,
+    "--foreground": fg,
     "--surface": theme.surface,
     "--card": theme.card,
-    "--border": theme.border,
-    "--primary": theme.primary,
-    "--primary-foreground": theme.primaryForeground,
+    "--border": border,
+    "--primary": primary,
+    "--primary-foreground": primaryFg,
     "--secondary": theme.secondary,
-    "--secondary-foreground": theme.secondaryForeground,
+    "--secondary-foreground": secondaryFg,
     "--accent": theme.accent,
-    "--accent-foreground": theme.accentForeground,
+    "--accent-foreground": accentFg,
     "--muted": theme.muted,
-    "--muted-foreground": theme.mutedForeground,
-    "--success": theme.success,
-    "--warning": theme.warning,
-    "--destructive": theme.destructive,
+    "--muted-foreground": mutedFg,
+    "--success": successText,
+    "--warning": warningText,
+    "--destructive": destructiveText,
     "--ring": theme.ring,
     "--selection": theme.selection,
     "--hover": theme.hover,
@@ -42,6 +65,7 @@ export function generateCssVariables(theme: ColorTheme): Record<string, string> 
     "--table-row-hover": theme.tableColors.rowBgHover,
   };
 }
+
 
 /**
  * Compiles a ColorTheme into a raw CSS stylesheet rule block

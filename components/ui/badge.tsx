@@ -14,9 +14,9 @@ export function Badge({ className, variant = "default", ...props }: BadgeProps) 
           "border-transparent bg-[var(--primary)] text-[var(--primary-foreground)]": variant === "default",
           "border-transparent bg-[var(--secondary)] text-[var(--foreground)]": variant === "secondary",
           "border-[var(--border)] text-[var(--foreground)]": variant === "outline",
-          "border-transparent bg-[var(--success)]/10 text-[var(--success)]": variant === "success",
-          "border-transparent bg-[var(--warning)]/10 text-[var(--warning)]": variant === "warning",
-          "border-transparent bg-[var(--destructive)]/10 text-[var(--destructive)]": variant === "error",
+          "border-transparent bg-[var(--success)]/15 text-[var(--success)]": variant === "success",
+          "border-transparent bg-[var(--warning)]/15 text-[var(--warning)]": variant === "warning",
+          "border-transparent bg-[var(--destructive)]/15 text-[var(--destructive)]": variant === "error",
         },
         className
       )}
